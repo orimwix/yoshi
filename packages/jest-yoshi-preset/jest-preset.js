@@ -1,10 +1,18 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const globby = require('globby');
-const { envs, withLatestJSDom } = require('./constants');
+const { envs, supportedEnvs } = require('./constants');
 const globs = require('yoshi-config/globs');
 
 const modulePathIgnorePatterns = ['<rootDir>/dist/', '<rootDir>/target/'];
+
+if (envs && envs.some(env => !supportedEnvs.includes(env))) {
+  console.log();
+  console.log(chalk.red(`jest-yoshi-preset: invalid MATCH_ENV=${envs}`));
+  console.log(chalk.red(`supported envs: ${supportedEnvs.join(`, `)}`));
+  console.log();
+}
+
 module.exports = {
   globalSetup: require.resolve('jest-environment-yoshi-puppeteer/globalSetup'),
   globalTeardown: require.resolve(
@@ -100,7 +108,6 @@ module.exports = {
             '^.+\\.jsx?$': require.resolve('./transforms/babel'),
             '^.+\\.tsx?$': require.resolve('ts-jest'),
             '\\.st.css?$': require.resolve('@stylable/jest'),
-            '\\.(gql|graphql)$': require.resolve('jest-transform-graphql'),
             '\\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot|wav|mp3|html|md)$': require.resolve(
               './transforms/file',
             ),
@@ -115,6 +122,12 @@ module.exports = {
           setupFilesAfterEnv,
         };
       }),
+    // fallback if no env was matched
+    {
+      displayName: 'dummy',
+      testMatch: ['dummy'],
+      modulePathIgnorePatterns,
+    },
     // workaround for https://github.com/facebook/jest/issues/5866
     {
       displayName: 'dummy',

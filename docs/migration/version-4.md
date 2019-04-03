@@ -141,6 +141,8 @@ To make migration easier, please start by running a helper script, which will ch
 curl https://gist.githubusercontent.com/ronami/1608dc49efc166bb6e15a21f7073cb79/raw | node
 ```
 
+note: `MATCH_ENV=component` should be replaced with `MATCH_ENV=spec`
+
 ### Puppeteer actions in Jest have a shorter default timeout
 
 (**Only relevant for projects using `jest-yoshi-preset`**)
