@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const globby = require('globby');
-const { envs, supportedEnvs } = require('./constants');
+const { envs, supportedEnvs, withLatestJSDom } = require('./constants');
 const globs = require('yoshi-config/globs');
 
 const modulePathIgnorePatterns = ['<rootDir>/dist/', '<rootDir>/target/'];
