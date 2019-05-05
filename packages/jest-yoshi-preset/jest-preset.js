@@ -11,6 +11,7 @@ if (envs && envs.some(env => !supportedEnvs.includes(env))) {
   console.log(chalk.red(`jest-yoshi-preset: invalid MATCH_ENV=${envs}`));
   console.log(chalk.red(`supported envs: ${supportedEnvs.join(`, `)}`));
   console.log();
+  process.exit(1);
 }
 
 module.exports = {
@@ -123,12 +124,6 @@ module.exports = {
           setupFilesAfterEnv,
         };
       }),
-    // fallback if no env was matched
-    {
-      displayName: 'dummy',
-      testMatch: ['dummy'],
-      modulePathIgnorePatterns,
-    },
     // workaround for https://github.com/facebook/jest/issues/5866
     {
       displayName: 'dummy',
